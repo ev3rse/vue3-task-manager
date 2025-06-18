@@ -1,0 +1,38 @@
+@use 'sass:math';
+
+$font-raleway: 'Raleway', Helvetica, Arial, sans-serif;
+$base-font-size-ec: 16px !default;
+$browser-context: 16;
+$vw-viewport: 320;
+
+* {
+  font-family: $font-raleway;
+  font-variant-numeric: lining-nums;
+  line-height: 140%;
+  font-size: 16px;
+}
+
+// px to vw
+@function vw($pxval) {
+  $width: $pxval * 1px;
+
+  $vw-context: $vw-viewport * 0.01 * 1px;
+  @return math.div($width, $vw-context) * 1vw;
+  @return $width;
+}
+
+// Delete px/percent... values
+@function strip-unit($value) {
+  @return math.div($value, $value * 0 + 1);
+}
+
+// px to rem
+@function rem($pxval) {
+  $base: $base-font-size-ec;
+
+  @if not unitless($base) {
+    $base: strip-unit($base);
+  }
+
+  @return math.div($pxval, $base) * 1rem;
+}
